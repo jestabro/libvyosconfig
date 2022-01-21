@@ -157,12 +157,11 @@ let copy_node c_ptr old_path new_path =
 
 let compare c_ptr_l c_ptr_r =
     let ct_l = Root.get c_ptr_l in
-    let ct_r = Roor.get c_ptr_r in
+    let ct_r = Root.get c_ptr_r in
     try
         let ct_diff = CD.compare ct_l ct_r in
-        Ctypes.Root.create ct_diff;
-        0
-    with CD.Incommensurable || CD.Empty_comparison -> 1
+        Ctypes.Root.create ct_diff
+    with CD.Incommensurable -> 1
 
 module Stubs(I : Cstubs_inverted.INTERNAL) =
 struct

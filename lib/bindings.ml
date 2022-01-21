@@ -161,7 +161,8 @@ let compare c_ptr_l c_ptr_r =
     try
         let ct_diff = CD.compare ct_l ct_r in
         Ctypes.Root.create ct_diff
-    with CD.Incommensurable -> 1
+    with
+        | _ -> error_message := "diff error"; Ctypes.null
 
 module Stubs(I : Cstubs_inverted.INTERNAL) =
 struct

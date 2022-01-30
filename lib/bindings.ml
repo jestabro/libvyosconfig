@@ -165,15 +165,19 @@ let compare c_ptr_l c_ptr_r =
         | CD.Incommensurable -> error_message := "Incommensurable"; Ctypes.null
         | CD.Empty_comparison -> error_message := "Empty comparison"; Ctypes.null
 
-let get_add_compare c_ptr_l c_ptr_r =
+let get_trees c_ptr_l c_ptr_r =
     let ct_l = Root.get c_ptr_l in
     let ct_r = Root.get c_ptr_r in
     try
-        let ct_diff = CD.get_add_compare ct_l ct_r in
-        Ctypes.Root.create ct_diff
+        let ct_add, ct_del, ct_inter = CD.get_trees ct_l ct_r in
+        let ptr_add = Ctypes.Root.create ct_add in
+        let ptr_del = Ctypes.Root.create ct_del in
+        let ptr_inter = Ctypes.Root.create ct_inter in
+        let ptr_arr = Ctypes.CArray.make (ptr void) ~initial:ptr_add 3 in Ctypes.CArray.set ptr_arr 1 ptr_del; Ctypes.CArray.set ptr_arr 2 ptr_inter; Ctypes.CArray.start ptr_arr
+
     with
-        | CD.Incommensurable -> error_message := "Incommensurable"; Ctypes.null
-        | CD.Empty_comparison -> error_message := "Empty comparison"; Ctypes.null
+        | CD.Incommensurable -> error_message := "Incommensurable"; Ctypes.CArray.start (Ctypes.CArray.make (ptr void) 3)
+        | CD.Empty_comparison -> error_message := "Empty comparison"; Ctypes.CArray.start (Ctypes.CArray.make (ptr void) 3)
 
 module Stubs(I : Cstubs_inverted.INTERNAL) =
 struct
@@ -200,5 +204,5 @@ struct
   let () = I.internal "return_value" ((ptr void) @-> string @-> returning string) return_value
   let () = I.internal "return_values" ((ptr void) @-> string @-> returning string) return_values
   let () = I.internal "compare" ((ptr void) @-> (ptr void)  @-> returning (ptr void)) compare
-  let () = I.internal "get_add_compare" ((ptr void) @-> (ptr void)  @-> returning (ptr void)) get_add_compare
+  let () = I.internal "get_trees" ((ptr void) @-> (ptr void)  @-> returning (ptr (ptr void))) get_trees
 end

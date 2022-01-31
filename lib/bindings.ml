@@ -165,11 +165,11 @@ let compare c_ptr_l c_ptr_r =
         | CD.Incommensurable -> error_message := "Incommensurable"; Ctypes.null
         | CD.Empty_comparison -> error_message := "Empty comparison"; Ctypes.null
 
-let get_trees c_ptr_l c_ptr_r =
+let difference c_ptr_l c_ptr_r =
     let ct_l = Root.get c_ptr_l in
     let ct_r = Root.get c_ptr_r in
     try
-        let ct_add, ct_del, ct_inter = CD.get_trees ct_l ct_r in
+        let ct_add, ct_del, ct_inter = CD.difference ct_l ct_r in
         let ptr_add = Ctypes.Root.create ct_add in
         let ptr_del = Ctypes.Root.create ct_del in
         let ptr_inter = Ctypes.Root.create ct_inter in
@@ -204,5 +204,5 @@ struct
   let () = I.internal "return_value" ((ptr void) @-> string @-> returning string) return_value
   let () = I.internal "return_values" ((ptr void) @-> string @-> returning string) return_values
   let () = I.internal "compare" ((ptr void) @-> (ptr void)  @-> returning (ptr void)) compare
-  let () = I.internal "get_trees" ((ptr void) @-> (ptr void)  @-> returning (ptr (ptr void))) get_trees
+  let () = I.internal "difference" ((ptr void) @-> (ptr void)  @-> returning (ptr (ptr void))) difference
 end

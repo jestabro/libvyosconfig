@@ -155,17 +155,6 @@ let copy_node c_ptr old_path new_path =
         0
     with Vytree.Nonexistent_path -> 1
 
-let compare path c_ptr_l c_ptr_r =
-    let path = split_on_whitespace path in
-    let ct_l = Root.get c_ptr_l in
-    let ct_r = Root.get c_ptr_r in
-    try
-        let ct_diff = CD.compare path ct_l ct_r in
-        Ctypes.Root.create ct_diff
-    with
-        | CD.Incommensurable -> error_message := "Incommensurable"; Ctypes.null
-        | CD.Empty_comparison -> error_message := "Empty comparison"; Ctypes.null
-
 let difference path c_ptr_l c_ptr_r =
     let path = split_on_whitespace path in
     let ct_l = Root.get c_ptr_l in
@@ -205,6 +194,5 @@ struct
   let () = I.internal "list_nodes" ((ptr void) @-> string @-> returning string) list_nodes
   let () = I.internal "return_value" ((ptr void) @-> string @-> returning string) return_value
   let () = I.internal "return_values" ((ptr void) @-> string @-> returning string) return_values
-  let () = I.internal "compare" (string @-> (ptr void) @-> (ptr void)  @-> returning (ptr void)) compare
   let () = I.internal "difference" (string @-> (ptr void) @-> (ptr void)  @-> returning (ptr (ptr void))) difference
 end

@@ -168,7 +168,7 @@ let diffs path c_ptr_l c_ptr_r =
         let ptr_add = Ctypes.Root.create ct_add in
         let ptr_del = Ctypes.Root.create ct_del in
         let ptr_inter = Ctypes.Root.create ct_inter in
-        let ptr_arr = Ctypes.CArray.make (ptr void) ~initial:ptr_add 3 in Ctypes.CArray.set ptr_arr 1 ptr_del; Ctypes.CArray.set ptr_arr 2 ptr_inter; Ctypes.CArray.start ptr_arr
+        let ptr_arr = Ctypes.CArray.make ~finalise:(fun _ -> print_endline "a carray was collected") (ptr void) ~initial:ptr_add 3 in Ctypes.CArray.set ptr_arr 1 ptr_del; Ctypes.CArray.set ptr_arr 2 ptr_inter; Ctypes.CArray.start ptr_arr
 
     with
         | CD.Incommensurable -> error_message := "Incommensurable"; Ctypes.CArray.start (Ctypes.CArray.make (ptr void) 3)

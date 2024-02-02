@@ -11,8 +11,8 @@ sudo sh -c 'dpkg --force-all -i /tmp/libvyatta-cfg1_*.deb /tmp/libvyatta-cfg-dev
 
 cd ${OLDPWD}
 
-sudo sh -c 'eval $(opam env --root=/opt/opam --set-root) && opam pin add vyos1x-config https://github.com/jestabro/vyos1x-config.git#98230f48 -y'
-sudo sh -c 'eval $(opam env --root=/opt/opam --set-root) && opam pin add vyos1x-adapter https://github.com/jestabro/vyos1x-adapter.git -y'
+sudo sh -c 'eval $(opam env --root=/opt/opam --set-root) && opam pin add vyos1x-config https://github.com/jestabro/vyos1x-config.git#86e35862c5 -y'
+#sudo sh -c 'eval $(opam env --root=/opt/opam --set-root) && opam pin add vyos1x-adapter https://github.com/jestabro/vyos1x-adapter.git -y'
 
 eval `opam config env`
 make clean

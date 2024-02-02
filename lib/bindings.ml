@@ -2,11 +2,9 @@ open Ctypes
 open Foreign
 
 open Vyos1x
-open Vyos1x_adapter
 
 module CT = Config_tree
 module CD = Config_diff
-module VA = Vyos1x_adapter
 
 let error_message = ref ""
 
@@ -218,7 +216,7 @@ let reference_tree_to_json from_dir to_file =
 let load_config c_ptr_l c_ptr_r =
     let ct_l = Root.get c_ptr_l in
     let ct_r = Root.get c_ptr_r in
-    let out = VA.load_config ct_l ct_r in
+    let out = CD.load_config ct_l ct_r in
     out
 
 module Stubs(I : Cstubs_inverted.INTERNAL) =

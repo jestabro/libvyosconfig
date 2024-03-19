@@ -15,3 +15,7 @@ override_dh_auto_install:
 
 override_dh_auto_test:
 	echo "No tests yet"
+
+override_dh_clean:
+	./clean.sh
+	dh_clean

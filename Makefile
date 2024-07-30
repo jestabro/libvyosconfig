@@ -61,7 +61,7 @@ $(BUILDDIR)/%.o: %.c
 	$(CC) -c -o $@ -fPIC -I $(shell ocamlfind query ctypes) -I $(OCAMLDIR) -I $(OCAMLDIR)/../ctypes $<
 
 $(BUILDDIR)/%.cmx: %.ml
-	ocamlfind opt -c -o $@ -I $(BUILDDIR)/generated -I $(BUILDDIR)/lib -package $(PACKAGES) $<
+	ocamlfind opt -c -o $@ -I $(BUILDDIR)/generated -I $(BUILDDIR)/lib -thread -package $(PACKAGES) $<
 
 $(GENERATOR): $(GENERATOR_FILES)
 	ocamlfind opt -o $@ -I $(BUILDDIR)/lib -linkpkg -thread -package $(PACKAGES) $^

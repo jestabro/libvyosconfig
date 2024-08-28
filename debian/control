@@ -11,7 +11,6 @@ Standards-Version: 3.9.6
 Package: libvyosconfig0
 Architecture: any
 Depends: ${shlibs:Depends},
-  ${misc:Depends},
-  libvyatta-cfg1
+  ${misc:Depends}
 Description: VyConf config tree manipulation library
   VyConf config tree parsing and manipulation library

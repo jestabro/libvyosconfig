@@ -1,6 +1,11 @@
 #!/usr/bin/make -f
 
 DIR := debian/tmp
+OCAML_DIR := /opt/opam/${OCAML_VERSION}
+VYCONF := usr/libexec/vyos/vyconf
+VYCONF_CONF := $(VYCONF)/config
+VYCONF_DATA := usr/share/vyos/vyconf
+VYCONF_DEF := etc/vyos
 
 %:
 	dh $@ --with quilt
@@ -9,6 +14,13 @@ override_dh_auto_build:
 	./build.sh $(DIR)
 
 override_dh_auto_install:
+	mkdir -p $(DIR)/$(VYCONF_CONF)
+	mkdir -p $(DIR)/$(VYCONF_DATA)
+	mkdir -p $(DIR)/$(VYCONF_DEF)
+	cp $(OCAML_DIR)/share/vyconf/vyconf.proto $(DIR)/$(VYCONF_DATA)
+	cp $(OCAML_DIR)/share/vyconf/vyconfd.conf $(DIR)/$(VYCONF_DEF)
+	cp $(OCAML_DIR)/bin/vyconfd $(DIR)/$(VYCONF)
+	#
 	mkdir -p $(DIR)/usr/lib
 	cp _build/libvyosconfig.so $(DIR)/usr/lib/libvyosconfig.so.0
 	dh_makeshlibs

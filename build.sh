@@ -11,8 +11,11 @@ DIR=$1
 
 #cd ${OLDPWD}
 
-sudo sh -c 'eval $(opam env --root=/opt/opam --set-root) && opam pin add vyos1x-config https://github.com/jestabro/vyos1x-config.git#3f5f21ce0e821 -y'
-sudo sh -c 'eval $(opam env --root=/opt/opam --set-root) && opam pin add vyos1x-adapter https://github.com/jestabro/vyos1x-adapter.git#418c3f6f97eec -y'
+# TODO: make vyconf directories in debian/rules
+
+sudo sh -c 'eval $(opam env --root=/opt/opam --set-root) && opam pin add vyos1x-config https://github.com/jestabro/vyos1x-config.git#45738970ee -y'
+sudo sh -c 'eval $(opam env --root=/opt/opam --set-root) && opam pin add vyconf https://github.com/jestabro/vyconf.git#2e62dddff9 -y'
+sudo sh -c 'eval $(opam env --root=/opt/opam --set-root) && opam pin add vyos1x-adapter https://github.com/jestabro/vyos1x-adapter.git#6afd7bfae9e -y'
 
 eval `opam config env`
 make clean

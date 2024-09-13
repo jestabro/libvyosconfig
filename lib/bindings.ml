@@ -224,9 +224,9 @@ let tree_union c_ptr_l c_ptr_r =
     with
         CD.Nonexistent_child -> error_message := "Nonexistent child"; Ctypes.null
 
-let reference_tree_to_json from_dir to_file =
+let reference_tree_to_json internal_cache from_dir to_file =
     try
-        Generate.reference_tree_to_json from_dir to_file; 0
+        Generate.reference_tree_to_json ~internal_cache:internal_cache from_dir to_file; 0
     with
         | Generate.Load_error msg ->
             let s = Printf.sprintf "Load_error \'%s\'" msg in
@@ -276,6 +276,6 @@ struct
   let () = I.internal "diff_tree" (string @-> (ptr void) @-> (ptr void) @-> returning (ptr void)) diff_tree
   let () = I.internal "show_diff" (bool @-> string @-> (ptr void) @-> (ptr void) @-> returning string) show_diff
   let () = I.internal "tree_union" ((ptr void) @-> (ptr void) @-> returning (ptr void)) tree_union
-  let () = I.internal "reference_tree_to_json" (string @-> string @-> returning int) reference_tree_to_json
+  let () = I.internal "reference_tree_to_json" (string @-> string @-> string @-> returning int) reference_tree_to_json
   let () = I.internal "mask_tree" ((ptr void) @-> (ptr void) @-> returning (ptr void)) mask_tree
 end

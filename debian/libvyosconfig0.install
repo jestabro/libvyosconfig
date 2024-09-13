@@ -1,1 +1,4 @@
 usr/lib/libvyosconfig.so.0
+usr/share/vyos/vyconf
+etc/vyos/vyconf
+usr/libexec/vyos/vyconf

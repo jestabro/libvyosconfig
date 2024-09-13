@@ -15,8 +15,9 @@ override_dh_auto_build:
 override_dh_auto_install:
 	mkdir -p $(DIR)/$(VYCONF_DATA)
 	mkdir -p $(DIR)/$(VYCONF_CONF)
-	mkdir -p $(DIR)/$(Vyconf_bin)
-	cp $(OCAML_DIR)/share/vyconfd $(DIR)/$(VYCONF_BIN)
+	mkdir -p $(DIR)/$(VYCONF_BIN)
+	cp $(OCAML_DIR)/share/vyconfd/vyconf.proto $(DIR)/$(VYCONF_DATA)
+	cp $(OCAML_DIR)/share/vyconfd/vyconfd.conf $(DIR)/$(VYCONF_CONF)
 	cp $(OCAML_DIR)/bin/vyconfd $(DIR)/$(VYCONF_BIN)
 
 	mkdir -p $(DIR)/usr/lib

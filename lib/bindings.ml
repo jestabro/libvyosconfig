@@ -59,12 +59,12 @@ let render_commands c_ptr op =
             CT.render_commands ~op:CT.Set (Root.get c_ptr) []
 
 let read_internal file =
-    let ct = I.read_internal file in
-    Ctypes.Root.create ct
-
-let write_internal c_ptr file =
-    let ct = Root.get c_ptr in
-    I.write_internal ct file
+    try
+        error_message := "";
+        let ct = I.read_internal file in
+        Ctypes.Root.create ct
+    with I.Read_error msg ->
+        error_message := msg; Ctypes.null
 
 let create_node c_ptr path =
     let ct = Root.get c_ptr in

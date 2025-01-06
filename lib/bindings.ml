@@ -235,6 +235,42 @@ let reference_tree_to_json internal_cache from_dir to_file =
             let s = Printf.sprintf "Write_error \'%s\'" msg in
             error_message := s; 1
 
+let merge_reference_tree_cache cache_dir primary_name result_name =
+    try
+        Generate.merge_reference_tree_cache cache_dir primary_name result_name; 0
+    with
+        | Tree_alg.Incompatible_union ->
+            let s = Printf.sprintf "Incompatible union" in
+            error_message := s; 1
+        | Tree_alg.Nonexistent_child ->
+            let s = Printf.sprintf "Nonexistent child node" in
+            error_message := s; 1
+        | Sys_error msg ->
+            let s = Printf.sprintf "Sys_error \'%s\'" msg in
+            error_message := s; 1
+
+let interface_definitions_to_cache from_dir cache_path =
+    try
+        Generate.interface_definitions_to_cache from_dir cache_path; 0
+    with
+        | Generate.Load_error msg ->
+            let s = Printf.sprintf "Load error \'%s\'" msg in
+            error_message := s; 1
+        | Internal.Write_error msg ->
+            let s = Printf.sprintf "Write error \'%s\'" msg in
+            error_message := s; 1
+
+let reference_tree_cache_to_json cache_path render_file =
+    try
+        Generate.reference_tree_cache_to_json cache_path render_file; 0
+    with
+        | Generate.Load_error msg | Internal.Read_error msg ->
+            let s = Printf.sprintf "Read error \'%s\'" msg in
+            error_message := s; 1
+        | Generate.Write_error msg ->
+            let s = Printf.sprintf "Write error \'%s\'" msg in
+            error_message := s; 1
+
 let mask_tree c_ptr_l c_ptr_r =
     let ct_l = Root.get c_ptr_l in
     let ct_r = Root.get c_ptr_r in
@@ -276,6 +312,9 @@ struct
   let () = I.internal "diff_tree" (string @-> (ptr void) @-> (ptr void) @-> returning (ptr void)) diff_tree
   let () = I.internal "show_diff" (bool @-> string @-> (ptr void) @-> (ptr void) @-> returning string) show_diff
   let () = I.internal "tree_union" ((ptr void) @-> (ptr void) @-> returning (ptr void)) tree_union
+  let () = I.internal "merge_reference_tree_cache" (string @-> string @-> string @-> returning int) merge_reference_tree_cache
+  let () = I.internal "interface_definitions_to_cache" (string @-> string @-> returning int) interface_definitions_to_cache
+  let () = I.internal "reference_tree_cache_to_json" (string @-> string @-> returning int) reference_tree_cache_to_json
   let () = I.internal "reference_tree_to_json" (string @-> string @-> string @-> returning int) reference_tree_to_json
   let () = I.internal "mask_tree" ((ptr void) @-> (ptr void) @-> returning (ptr void)) mask_tree
 end

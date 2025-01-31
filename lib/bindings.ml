@@ -66,6 +66,14 @@ let read_internal file =
     with Internal.Read_error msg ->
         error_message := msg; Ctypes.null
 
+let write_internal file =
+    try
+        error_message := "";
+        let ct = I.write_internal file in
+        Ctypes.Root.create ct
+    with Internal.Write_error msg ->
+        error_message := msg; Ctypes.null
+
 let create_node c_ptr path =
     let ct = Root.get c_ptr in
     let path = split_on_whitespace path in

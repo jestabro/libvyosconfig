@@ -68,3 +68,6 @@ $(GENERATOR): $(GENERATOR_FILES)
 
 clean:
 	rm -rf $(BUILDDIR)
+
+deb:
+	dpkg-buildpackage -uc -us -tc -b

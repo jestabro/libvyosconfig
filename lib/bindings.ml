@@ -7,7 +7,7 @@ open Commitd_client
 
 module CT = Config_tree
 module CD = Config_diff
-module CM = Commit
+module DI = Diagnose
 module VC = Vycall_client
 
 module I = Internal.Make(Config_tree)
@@ -273,7 +273,7 @@ let mask_tree c_ptr_l c_ptr_r =
 let show_commit_data c_ptr_a c_ptr_w =
     let ct_a = Root.get c_ptr_a in
     let ct_w = Root.get c_ptr_w in
-    CM.show_commit_data ct_a ct_w
+    DI.show_commit_data ct_a ct_w
 
 module Stubs(I : Cstubs_inverted.INTERNAL) =
 struct

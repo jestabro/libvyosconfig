@@ -7,6 +7,7 @@ open Commitd_client
 
 module CT = Config_tree
 module CD = Config_diff
+module CF = Config_file
 module DI = Diagnose
 module VC = Vycall_client
 
@@ -275,6 +276,16 @@ let show_commit_data c_ptr_a c_ptr_w =
     let ct_w = Root.get c_ptr_w in
     DI.show_commit_data ct_a ct_w
 
+let acquire_commit_lock file =
+    let fd = CF.acquire_commit_lock file in
+    match fd with
+    | Some d -> Ctypes.Root.create d
+    | None -> error_message := "Commit is locked"; Ctypes.null
+
+let release_commit_lock file_p =
+    let fp = Root.get file_p in
+    CF.release_commit_lock fp
+
 module Stubs(I : Cstubs_inverted.INTERNAL) =
 struct
 
@@ -312,4 +323,6 @@ struct
   let () = I.internal "reference_tree_to_json" (string @-> string @-> string @-> returning int) reference_tree_to_json
   let () = I.internal "mask_tree" ((ptr void) @-> (ptr void) @-> returning (ptr void)) mask_tree
   let () = I.internal "show_commit_data" ((ptr void) @-> (ptr void) @-> returning string) show_commit_data
+  let () = I.internal "acquire_commit_lock" (string @-> returning (ptr void)) acquire_commit_lock
+  let () = I.internal "release_commit_lock" ((ptr void) @-> returning void) release_commit_lock
 end

@@ -11,7 +11,7 @@ module TA = Tree_alg
 module CM = Commit
 module VC = Vycall_client
 
-module I = Internal.Make(Config_tree)
+module IN = Internal.Make(Config_tree)
 
 let error_message = ref ""
 
@@ -66,7 +66,7 @@ let render_commands c_ptr op =
 let read_internal file =
     try
         error_message := "";
-        let ct = I.read_internal file in
+        let ct = IN.read_internal file in
         Ctypes.Root.create ct
     with Internal.Read_error msg ->
         error_message := msg; Ctypes.null
@@ -75,7 +75,7 @@ let write_internal c_ptr file =
     try
         error_message := "";
         let ct = Root.get c_ptr in
-        I.write_internal ct file
+        IN.write_internal ct file
     with Internal.Write_error msg ->
         error_message := msg
 

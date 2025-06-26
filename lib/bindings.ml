@@ -65,8 +65,7 @@ let render_commands c_ptr op =
 let read_internal file =
     try
         error_message := "";
-        let ct = Internal.read_config_tree file in
-        Ctypes.Root.create ct
+        Ctypes.Root.create (Internal.read_config_tree file)
     with Internal.Read_error msg ->
         error_message := msg; Ctypes.null
 

@@ -62,14 +62,14 @@ let render_commands c_ptr op =
     | _ ->
             CT.render_commands ~op:CT.Set (Root.get c_ptr) []
 
-let read_internal file =
+let read_yojson file =
     try
         error_message := "";
         Ctypes.Root.create (Internal.read_config_tree file)
     with Internal.Read_error msg ->
         error_message := msg; Ctypes.null
 
-let write_internal c_ptr file =
+let write_yojson c_ptr file =
     try
         error_message := "";
         let ct = Root.get c_ptr in
@@ -292,8 +292,8 @@ struct
   let () = I.internal "to_json" ((ptr void) @-> returning string) render_json
   let () = I.internal "to_json_ast" ((ptr void) @-> returning string) render_json_ast
   let () = I.internal "to_commands" ((ptr void) @-> string @-> returning string) render_commands
-  let () = I.internal "read_internal" (string @-> returning (ptr void)) read_internal
-  let () = I.internal "write_internal" ((ptr void) @-> string @-> returning void) write_internal
+  let () = I.internal "read_yojson" (string @-> returning (ptr void)) read_yojson
+  let () = I.internal "write_yojson" ((ptr void) @-> string @-> returning void) write_yojson
   let () = I.internal "create_node" ((ptr void) @-> string @-> returning int) create_node
   let () = I.internal "set_add_value" ((ptr void) @-> string @-> string @-> returning int) set_add_value
   let () = I.internal "set_replace_value" ((ptr void) @-> string @-> string @-> returning int) set_replace_value

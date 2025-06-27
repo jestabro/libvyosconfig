@@ -63,6 +63,8 @@ let render_commands c_ptr op =
             CT.render_commands ~op:CT.Set (Root.get c_ptr) []
 
 let read_yojson file =
+    let config = Parser.from_string "" in
+    let _ = Ctypes.Root.create config in
     try
         error_message := "";
         Ctypes.Root.create (Internal.read_config_tree file)

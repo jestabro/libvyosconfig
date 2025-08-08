@@ -2,8 +2,8 @@
 
 DIR=$1
 
-sudo sh -c 'eval $(opam env --root=/opt/opam --set-root) && opam pin add vyos1x-config https://github.com/vyos/vyos1x-config.git#868b906e8af275a7121b59bb186c06602e9d8af4 -y'
-sudo sh -c 'eval $(opam env --root=/opt/opam --set-root) && opam pin add vyconf https://github.com/vyos/vyconf.git#29e73893a0fc942a96abc06dfa037afd71778d27 -y'
+sudo sh -c 'eval $(opam env --root=/opt/opam --set-root) && opam pin add vyos1x-config https://github.com/jestabro/vyos1x-config.git#ace49e3a8896b6d0a5305abd96798494a71b26f9 -y'
+sudo sh -c 'eval $(opam env --root=/opt/opam --set-root) && opam pin add vyconf https://github.com/jestabro/vyconf.git#5c3ee40c425861a212f5f48aabadb82590e9e934 -y'
 
 eval `opam config env`
 make clean
